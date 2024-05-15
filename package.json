@@ -1,0 +1,30 @@
+{
+  "name": "@ryands17/ddb-cache",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "test": "vitest",
+    "test:ci": "vitest run --coverage"
+  },
+  "devDependencies": {
+    "@aws-sdk/client-dynamodb": "^3.576.0",
+    "@testcontainers/localstack": "^10.9.0",
+    "@types/node": "^20.12.12",
+    "@vitest/coverage-v8": "^1.6.0",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
+    "prettier": "^3.2.5",
+    "typescript": "^5.4.5",
+    "vitest": "^1.6.0"
+  },
+  "prettier": {
+    "singleQuote": true
+  },
+  "packageManager": "pnpm@8.7.4+sha1.9dfcac89c4010a00ce092c3cda76dab72cd99198",
+  "dependencies": {
+    "electrodb": "^2.14.0"
+  },
+  "peerDependencies": {
+    "@aws-sdk/client-dynamodb": "^3.576.0"
+  }
+}
