@@ -1,15 +1,12 @@
-# ddb-cache
+# DynamoDB cache
 
-To install dependencies:
+A full serverless cache wrapper made with DynamoDB that use [ElectroDB](https://electrodb.dev/en/core-concepts/introduction/) under the hood for easy querying and TTL management.
 
-```bash
-bun install
-```
+## Prerequisites to running it locally
 
-To run:
+- PNPM
+- Docker (to run tests)
 
-```bash
-bun run index.ts
-```
+## Scripts
 
-This project was created using `bun init` in bun v1.1.7. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+- `pnpm test`: Run all tests

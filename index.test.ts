@@ -90,3 +90,33 @@ test('Cached value should not be available after TTL', async () => {
 
   vi.useRealTimers();
 });
+
+test('The `has` method returns true for existing keys in the cache', async () => {
+  vi.useFakeTimers();
+  await cache.set('key3', 'value3');
+
+  vi.advanceTimersByTime(20 * 1000);
+  expect(await cache.has('key3')).toBeTruthy();
+});
+
+test('Check if all items in the namespace are cleared', async () => {
+  vi.useFakeTimers();
+
+  const items = [
+    { key: 'key1', value: 'value1' },
+    { key: 'key2', value: 'value2' },
+    { key: 'key3', value: 'value3' },
+  ];
+
+  for (let item of items) {
+    await cache.set(item.key, item.value);
+  }
+
+  vi.advanceTimersByTime(20 * 1000);
+  await cache.clear();
+
+  for (let item of items) {
+    const value = await cache.get(item.key);
+    expect(value).toBeUndefined();
+  }
+});
