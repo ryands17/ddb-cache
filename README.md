@@ -1,12 +1,19 @@
-# DynamoDB cache
+# DynamoDB as cache
 
-A full serverless cache wrapper made with DynamoDB that use [ElectroDB](https://electrodb.dev/en/core-concepts/introduction/) under the hood for easy querying and TTL management.
+A full serverless cache for DynamoDB that uses [ElectroDB](https://electrodb.dev/en/core-concepts/introduction/) under the hood for querying and TTL management.
 
-## Prerequisites to running it locally
+## Prerequisites
 
 - PNPM
 - Docker (to run tests)
 
+This library also requires a DynamoDB table to be created with the following required fields:
+
+- `pk`: String (HASH key)
+- `sk`: String (SORT key)
+- `ttl`: Number (DynamoDB TTL field)
+
 ## Scripts
 
 - `pnpm test`: Run all tests
+- `pnpm build`: Build the lib for CJS and ESM
