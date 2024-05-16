@@ -1,4 +1,12 @@
-import { afterAll, beforeAll, expect, test, vi } from 'vitest';
+import {
+  afterAll,
+  beforeAll,
+  beforeEach,
+  afterEach,
+  expect,
+  test,
+  vi,
+} from 'vitest';
 import {
   LocalstackContainer,
   type StartedLocalStackContainer,
@@ -57,6 +65,14 @@ beforeAll(async () => {
   cache = new DynamoDBCache(client, tableName, 'default', CACHE_TTL);
 });
 
+beforeEach(() => {
+  vi.useFakeTimers();
+});
+
+afterEach(() => {
+  vi.useRealTimers();
+});
+
 afterAll(async () => {
   await container.stop();
 });
@@ -80,28 +96,20 @@ test('the deleted value should not exist', async () => {
 });
 
 test('Cached value should not be available after TTL', async () => {
-  vi.useFakeTimers();
   await cache.set('key2', 'value2');
 
   vi.advanceTimersByTime(CACHE_TTL * 1000);
 
   const value = await cache.get('key2');
   expect(value).toBeUndefined();
-
-  vi.useRealTimers();
 });
 
 test('The `has` method returns true for existing keys in the cache', async () => {
-  vi.useFakeTimers();
   await cache.set('key3', 'value3');
-
-  vi.advanceTimersByTime(20 * 1000);
   expect(await cache.has('key3')).toBeTruthy();
 });
 
 test('Check if all items in the namespace are cleared', async () => {
-  vi.useFakeTimers();
-
   const items = [
     { key: 'key1', value: 'value1' },
     { key: 'key2', value: 'value2' },
@@ -112,7 +120,6 @@ test('Check if all items in the namespace are cleared', async () => {
     await cache.set(item.key, item.value);
   }
 
-  vi.advanceTimersByTime(20 * 1000);
   await cache.clear();
 
   for (let item of items) {

@@ -12,7 +12,7 @@ const cacheModel = new Entity({
     ttl: { type: 'number' },
   },
   indexes: {
-    fetchFromCache: {
+    fetchFromApp: {
       pk: { field: 'pk', composite: ['namespace'] },
       sk: { field: 'sk', composite: ['key'] },
     },
@@ -22,7 +22,7 @@ const cacheModel = new Entity({
 /**
  * Create a cache manager that uses DynamoDB under the hood to store key/value pairs.
  * Pass in the table name, namespace and ttl (optional) in seconds for automatic expiration.
- * Currently only supports strings.
+ * Currently only supports strings as values.
  * @example
  * ```ts
  * const client = new DynamoDBClient()
@@ -60,7 +60,7 @@ export class DynamoDBCache {
     const currentTime = this.getCurrentEpochInSeconds();
 
     const { data } = await cacheModel.query
-      .fetchFromCache({ namespace: this.namespace, key })
+      .fetchFromApp({ namespace: this.namespace, key })
       .where(({ ttl }, op) => op.gt(ttl, currentTime))
       .go();
 
@@ -97,24 +97,22 @@ export class DynamoDBCache {
    * const result = await delete('key')
    * ```
    */
-  async delete(key: string) {
-    const { data } = await cacheModel
+  async delete(key: string): Promise<void> {
+    await cacheModel
       .delete({ namespace: this.namespace, key })
       .go({ response: 'all_old' });
-
-    return Boolean(data.value);
   }
 
   /**
    * Clears all cached values in the given namespace
    * @example
    * ```ts
-   * await clear('my-app-name')
+   * await clear()
    * ```
    */
   async clear(): Promise<void> {
     const { data } = await cacheModel.query
-      .fetchFromCache({ namespace: this.namespace })
+      .fetchFromApp({ namespace: this.namespace })
       .go();
     await cacheModel.delete(data).go();
   }
