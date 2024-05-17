@@ -11,6 +11,17 @@
     "dist",
     "package.json"
   ],
+  "keywords": [
+    "dynamodb",
+    "cache"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ryands17/ddb-cache.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ryands17/ddb-cache/issues"
+  },
   "exports": {
     ".": {
       "require": "./dist/index.cjs",
