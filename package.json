@@ -1,5 +1,6 @@
 {
   "name": "@ryands17/ddb-cache",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "test": "vitest",
@@ -23,6 +24,7 @@
   "types": "./dist/index.d.ts",
   "devDependencies": {
     "@aws-sdk/client-dynamodb": "^3.576.0",
+    "@changesets/cli": "^2.27.2",
     "@testcontainers/localstack": "^10.9.0",
     "@types/node": "^20.12.12",
     "@vitest/coverage-v8": "^1.6.0",
